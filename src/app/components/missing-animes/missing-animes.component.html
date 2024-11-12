@@ -1,0 +1,84 @@
+<div fxLayout="column" style="margin: 10px">
+	<div fxLayout="row">
+		<label fxFlex="15" fxLayoutAlign=" center">Search in Anime Relation Types:</label>
+		<mat-checkbox fxFlex="7" [(ngModel)]="selectedRelationTypes.prequel.checked">Prequel</mat-checkbox>
+		<mat-checkbox fxFlex="7" [(ngModel)]="selectedRelationTypes.sequel.checked">Sequel</mat-checkbox>
+		<mat-checkbox fxFlex="8" [(ngModel)]="selectedRelationTypes.summary.checked">Summary</mat-checkbox>
+		<mat-checkbox fxFlex="9" [(ngModel)]="selectedRelationTypes.side_story.checked">Side Story</mat-checkbox>
+		<mat-checkbox fxFlex="9" [(ngModel)]="selectedRelationTypes.parent_story.checked">Parent Story</mat-checkbox>
+		<mat-checkbox fxFlex="9" [(ngModel)]="selectedRelationTypes.full_story.checked">Full Story</mat-checkbox>
+		<mat-checkbox fxFlex="9" [(ngModel)]="selectedRelationTypes.other.checked">Other</mat-checkbox>
+		<mat-checkbox fxFlex="10" [(ngModel)]="selectedRelationTypes.alternative_version.checked">Alternative Version</mat-checkbox>
+		<mat-checkbox [(ngModel)]="selectedRelationTypes.alternative_setting.checked">Alternative Setting</mat-checkbox>
+	</div>
+
+	<div fxLayout="row">
+		<label fxFlex="15" fxLayoutAlign=" center">Search for Anime Types:</label>
+		<mat-checkbox fxFlex="7" [(ngModel)]="selectedAnimeTypes.tv.checked">TV</mat-checkbox>
+		<mat-checkbox fxFlex="7" [(ngModel)]="selectedAnimeTypes.movie.checked">Movie</mat-checkbox>
+		<mat-checkbox fxFlex="8" [(ngModel)]="selectedAnimeTypes.ova.checked">OVA</mat-checkbox>
+		<mat-checkbox fxFlex="9" [(ngModel)]="selectedAnimeTypes.special.checked">Special</mat-checkbox>
+		<mat-checkbox fxFlex="9" [(ngModel)]="selectedAnimeTypes.music.checked">Music</mat-checkbox>
+		<mat-checkbox fxFlex="9" [(ngModel)]="selectedAnimeTypes.ona.checked">Ona</mat-checkbox>
+		<mat-checkbox [(ngModel)]="selectedAnimeTypes.unknown.checked">Unknown</mat-checkbox>
+	</div>
+
+	<div fxLayout="row">
+		<label fxFlex="15" fxLayoutAlign=" center">Search for Anime Status:</label>
+		<mat-checkbox fxFlex="7" [(ngModel)]="selectedAnimeStatuses.currently_airing.checked">Airing</mat-checkbox>
+		<mat-checkbox fxFlex="7" [(ngModel)]="selectedAnimeStatuses.finished_airing.checked">Finished Airing</mat-checkbox>
+		<mat-checkbox fxFlex="8" [(ngModel)]="selectedAnimeStatuses.not_yet_aired.checked">Not Yet Aired</mat-checkbox>
+	</div>
+
+	<div fxlayout="row" fxLayoutGap="5" style="margin-bottom: 25px">
+		<button mat-raised-button color="primary" (click)="test()">Get Anime Test Details</button>
+		<button mat-raised-button color="primary" (click)="getUserAnimeList()">Get User Anime List</button>
+	</div>
+
+	<div [hidden]="curScanningState.total == 0">
+		<label> {{ curScanningState.curIndex }} / {{ curScanningState.total }} Scanning Anime: {{ curScanningState?.curScanningAnime?.node?.id }}</label>
+	</div>
+
+	<mat-table matSort mat-elevation-z8 [dataSource]="dataSource" style="width: 100%">
+		<ng-container style="max-width: 255px" matColumnDef="main_picture">
+			<mat-header-cell *matHeaderCellDef>Image</mat-header-cell>
+			<mat-cell *matCellDef="let element"><img [src]="element.main_picture.medium" style="max-width: 255px" /></mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="title">
+			<mat-header-cell mat-sort-header *matHeaderCellDef>Name</mat-header-cell>
+			<mat-cell *matCellDef="let anime">{{ anime.title }}</mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="media_type">
+			<mat-header-cell mat-sort-header *matHeaderCellDef>Media Type</mat-header-cell>
+			<mat-cell *matCellDef="let anime">{{ anime.media_type }}</mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="status">
+			<mat-header-cell mat-sort-header *matHeaderCellDef>Status</mat-header-cell>
+			<mat-cell *matCellDef="let anime">{{ anime.status }}</mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="start_date">
+			<mat-header-cell mat-sort-header *matHeaderCellDef>Release Date</mat-header-cell>
+			<mat-cell *matCellDef="let anime">{{ anime.start_date }}</mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="mean">
+			<mat-header-cell mat-sort-header *matHeaderCellDef>Score</mat-header-cell>
+			<mat-cell *matCellDef="let anime">{{ anime.mean }}</mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="url">
+			<mat-header-cell mat-sort-header *matHeaderCellDef>URL</mat-header-cell>
+			<mat-cell *matCellDef="let anime">
+				<a href="https://myanimelist.net/anime/{{ anime.id }}" target="_blank">Link</a>
+			</mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="['main_picture', 'title', 'media_type', 'status', 'start_date', 'mean', 'url']"></mat-header-row>
+		<mat-row *matRowDef="let myRowData; columns: ['main_picture', 'title', 'media_type', 'status', 'start_date', 'mean', 'url']"></mat-row>
+	</mat-table>
+</div>
+
